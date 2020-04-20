@@ -170,13 +170,14 @@ def reorder_links_at_patch(np.ndarray[DTYPE_t, ndim=1] links_at_patch,
 cdef _argsort_links(long * links, int n_links, long * nodes, long * ordered):
     cdef int n_nodes = 2 * n_links
     cdef int * index = <int *>malloc(n_nodes * sizeof(int))
+    cdef int i
 
     try:
         argsort_int(nodes, n_nodes, index)
 
         i = 0
         for link in range(n_links):
-            ordered[i / 2] = index[i] / 2
+            ordered[i / 2] = index[i] // 2
             i += 2
     finally:
         free(index)
@@ -217,7 +218,7 @@ cdef reverse_order(long * array, long size):
     cdef long i
     cdef long temp
 
-    for i in range(size / 2):
+    for i in range(size // 2):
         temp = array[i]
         array[i] = array[(size - 1) - i]
         array[(size - 1) - i] = temp
