@@ -50,8 +50,6 @@ def subside_grid(
   cdef long row_load
   cdef long row
 
-  return
-
   if nrows != load.shape[0]:
       raise RuntimeError("load")
   if nrows != r.shape[0]:
@@ -67,13 +65,13 @@ def subside_grid(
           raise RuntimeError(row)
       if row_load - row >= nrows or row_load - row < 0:
           raise RuntimeError(row_load - row)
-      subside_parallel_row(w[row], load[row_load], r[row_load - row], alpha, gamma_mantle)
+      # subside_parallel_row(w[row], load[row_load], r[row_load - row], alpha, gamma_mantle)
     for row in range(row_load, nrows):
       if row >= nrows or row < 0:
           raise RuntimeError(row)
       if row - row_load >= nrows or row - row_load < 0:
           raise RuntimeError(row_load - row)
-      subside_parallel_row(w[row], load[row_load], r[row - row_load], alpha, gamma_mantle)
+      # subside_parallel_row(w[row], load[row_load], r[row - row_load], alpha, gamma_mantle)
 
 
 def subside_grid_strip(
