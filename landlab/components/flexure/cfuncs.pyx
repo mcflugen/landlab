@@ -20,6 +20,8 @@ def subside_parallel_row(
     DTYPE_t alpha,
     DTYPE_t gamma_mantle
 ):
+  return
+
   cdef long ncols = w.size
   cdef double inv_c = 1. / (2. * np.pi * gamma_mantle * alpha ** 2.)
   cdef double c
@@ -30,8 +32,6 @@ def subside_parallel_row(
       raise RuntimeError("load")
   if ncols != r.shape[0]:
       raise RuntimeError("r")
-
-  return
 
   for col_load in range(ncols):
     if fabs(load[col_load]) > 1e-6:
