@@ -20,7 +20,8 @@ ctypedef np.uint8_t uint8
 @cython.boundscheck(False)
 def reverse_one_to_one(np.ndarray[DTYPE_t, ndim=1] mapping,
                        np.ndarray[DTYPE_t, ndim=1] out):
-    cdef int n_elements = mapping.size
+    # cdef int n_elements = mapping.size
+    cdef int n_elements = mapping.shape[0]
     cdef int index
     cdef int id_
 
@@ -66,7 +67,8 @@ def remap_graph_element(np.ndarray[DTYPE_t, ndim=1] elements,
     old_to_new : ndarray of int
         Mapping from the old identifier to the new identifier.
     """
-    cdef int n_elements = elements.size
+    # cdef int n_elements = elements.size
+    cdef int n_elements = elements.shape[0]
     cdef int i
 
     for i in range(n_elements):
@@ -88,7 +90,8 @@ def remap_graph_element_ignore(np.ndarray[DTYPE_t, ndim=1] elements,
     bad_val : int
         Ignore values in the input array when remapping.
     """
-    cdef int n_elements = elements.size
+    # cdef int n_elements = elements.size
+    cdef int n_elements = elements.shape[0]
     cdef int i
 
     for i in range(n_elements):
@@ -186,7 +189,8 @@ cdef _argsort_links(long * links, int n_links, long * nodes, long * ordered):
 @cython.boundscheck(False)
 def connect_links(np.ndarray[long, ndim=1, mode="c"] links,
                   np.ndarray[long, ndim=2] nodes_at_link):
-    cdef long n_links = links.size
+    # cdef long n_links = links.size
+    cdef long n_links = links.shape[0]
     cdef long * nodes = <long *>malloc(2 * n_links * sizeof(long))
     cdef long * ordered = <long *>malloc(n_links * sizeof(long))
     cdef long * buff = <long *>malloc(n_links * sizeof(long))
