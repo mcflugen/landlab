@@ -105,6 +105,8 @@ def subside_grid_in_parallel(
     DTYPE_t gamma_mantle,
     n_procs
 ):
+    return
+
     if n_procs == 1:
         return subside_grid(w, load, r, alpha, gamma_mantle)
 
