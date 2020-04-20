@@ -1,5 +1,3 @@
-#cython: language_level=2
-
 from multiprocessing import Pool
 
 import numpy as np
@@ -14,7 +12,7 @@ DTYPE = np.double
 ctypedef np.double_t DTYPE_t
 
 
-# @cython.boundscheck(False)
+@cython.boundscheck(True)
 def subside_parallel_row(
     np.ndarray[DTYPE_t, ndim=1] w,
     np.ndarray[DTYPE_t, ndim=1] load,
@@ -22,19 +20,25 @@ def subside_parallel_row(
     DTYPE_t alpha,
     DTYPE_t gamma_mantle
 ):
-  cdef int ncols = w.size
+  cdef long ncols = w.size
   cdef double inv_c = 1. / (2. * np.pi * gamma_mantle * alpha ** 2.)
   cdef double c
-  cdef int i
-  cdef int j
+  cdef long col_load
+  cdef long col
 
-  for i in range(ncols):
-    if fabs(load[i]) > 1e-6:
-      c = load[i] * inv_c
-      for j in range(ncols):
-        w[j] += - c * r[abs(j - i)]
+  for col_load in range(ncols):
+    if fabs(load[col_load]) > 1e-6:
+      c = load[col_load] * inv_c
+      # for j in range(ncols):
+      #   w[j] += - c * r[abs(j - i)]
+
+      for col in range(col_load):
+        w[col] += - c * r[col_load - col]
+      for col in range(col_load, ncols):
+        w[col] += - c * r[col - col_load]
 
 
+@cython.boundscheck(True)
 def subside_grid(
     np.ndarray[DTYPE_t, ndim=2] w,
     np.ndarray[DTYPE_t, ndim=2] load,
@@ -42,27 +46,37 @@ def subside_grid(
     DTYPE_t alpha,
     DTYPE_t gamma_mantle
 ):
-  cdef int nrows = w.shape[0]
-  cdef int i
-  cdef int j
+  cdef long nrows = w.shape[0]
+  cdef long row_load
+  cdef long row
 
-  for i in range(nrows):
-    for j in range(nrows):
-      subside_parallel_row(w[j], load[i], r[abs(j - i)], alpha, gamma_mantle)
+  for row_load in range(nrows):
+    # for j in range(nrows):
+    #   subside_parallel_row(w[j], load[i], r[abs(j - i)], alpha, gamma_mantle)
+
+    for row in range(row_load):
+      subside_parallel_row(w[row], load[row_load], r[row_load - row], alpha, gamma_mantle)
+    for row in range(row_load, nrows):
+      subside_parallel_row(w[row], load[row_load], r[row - row_load], alpha, gamma_mantle)
 
 
-def subside_grid_strip(np.ndarray[DTYPE_t, ndim=2] load,
-                       np.ndarray[DTYPE_t, ndim=2] r,
-                       DTYPE_t alpha, DTYPE_t gamma_mantle, strip_range):
+def subside_grid_strip(
+    np.ndarray[DTYPE_t, ndim=2] load,
+    np.ndarray[DTYPE_t, ndim=2] r,
+    DTYPE_t alpha,
+    DTYPE_t gamma_mantle,
+    strip_range
+):
   (start, stop) = strip_range
 
   cdef np.ndarray w = np.zeros((stop - start, load.shape[1]), dtype=DTYPE)
   cdef i
+  cdef j
+  cdef nrows = load.shape[0]
 
-  for i in range(load.shape[0]):
+  for i in range(nrows):
     for j in range(start, stop):
-      subside_parallel_row(w[j - start], load[i], r[abs(j - i)], alpha,
-                           gamma_mantle)
+      subside_parallel_row(w[j - start], load[i], r[abs(j - i)], alpha, gamma_mantle)
 
   return w, strip_range
 
