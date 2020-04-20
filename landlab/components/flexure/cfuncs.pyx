@@ -27,12 +27,6 @@ def subside_parallel_row(
   cdef long col
 
   ncols = w.shape[0]
-
-  if ncols != load.shape[0]:
-      raise RuntimeError("load")
-  if ncols != r.shape[0]:
-      raise RuntimeError("r")
-
   inv_c = 1.0 / (2.0 * np.pi * gamma_mantle * alpha ** 2.0)
 
   for col_load in range(ncols):
