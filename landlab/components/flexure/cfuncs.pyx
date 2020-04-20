@@ -1,3 +1,5 @@
+#cython: language_level=3str
+
 from multiprocessing import Pool
 
 import numpy as np
@@ -12,12 +14,14 @@ DTYPE = np.double
 ctypedef np.double_t DTYPE_t
 
 
-@cython.boundscheck(False)
-def subside_parallel_row(np.ndarray[DTYPE_t, ndim=1] w,
-                         np.ndarray[DTYPE_t, ndim=1] load,
-                         np.ndarray[DTYPE_t, ndim=1] r,
-                         DTYPE_t alpha,
-                         DTYPE_t gamma_mantle):
+# @cython.boundscheck(False)
+def subside_parallel_row(
+    np.ndarray[DTYPE_t, ndim=1] w,
+    np.ndarray[DTYPE_t, ndim=1] load,
+    np.ndarray[DTYPE_t, ndim=1] r,
+    DTYPE_t alpha,
+    DTYPE_t gamma_mantle
+):
   cdef int ncols = w.size
   cdef double inv_c = 1. / (2. * np.pi * gamma_mantle * alpha ** 2.)
   cdef double c
@@ -31,10 +35,13 @@ def subside_parallel_row(np.ndarray[DTYPE_t, ndim=1] w,
         w[j] += - c * r[abs(j - i)]
 
 
-def subside_grid(np.ndarray[DTYPE_t, ndim=2] w,
-                 np.ndarray[DTYPE_t, ndim=2] load,
-                 np.ndarray[DTYPE_t, ndim=2] r,
-                 DTYPE_t alpha, DTYPE_t gamma_mantle):
+def subside_grid(
+    np.ndarray[DTYPE_t, ndim=2] w,
+    np.ndarray[DTYPE_t, ndim=2] load,
+    np.ndarray[DTYPE_t, ndim=2] r,
+    DTYPE_t alpha,
+    DTYPE_t gamma_mantle
+):
   cdef int nrows = w.shape[0]
   cdef int i
   cdef int j
@@ -74,10 +81,14 @@ def _subside_grid_strip_helper(args):
   return subside_grid_strip(*args)
 
 
-def subside_grid_in_parallel(np.ndarray[DTYPE_t, ndim=2] w,
-                             np.ndarray[DTYPE_t, ndim=2] load,
-                             np.ndarray[DTYPE_t, ndim=2] r,
-                             DTYPE_t alpha, DTYPE_t gamma_mantle, n_procs):
+def subside_grid_in_parallel(
+    np.ndarray[DTYPE_t, ndim=2] w,
+    np.ndarray[DTYPE_t, ndim=2] load,
+    np.ndarray[DTYPE_t, ndim=2] r,
+    DTYPE_t alpha,
+    DTYPE_t gamma_mantle,
+    n_procs
+):
     if n_procs == 1:
         return subside_grid(w, load, r, alpha, gamma_mantle)
 
