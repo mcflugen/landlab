@@ -59,7 +59,6 @@ def subside_grid(
       raise RuntimeError("r")
 
   for row_load in range(nrows):
-    print(row_load)
     # for j in range(nrows):
     #   subside_parallel_row(w[j], load[i], r[abs(j - i)], alpha, gamma_mantle)
 
