@@ -5,7 +5,7 @@ cimport cython
 from libc.stdlib cimport malloc, free, qsort
 from libc.math cimport atan2
 
-from argsort cimport argsort
+from .argsort cimport argsort
 
 
 cdef _calc_spoke_angles(double * hub, double * spokes, np.int_t n_spokes,
