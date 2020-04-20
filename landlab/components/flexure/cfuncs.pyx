@@ -26,8 +26,6 @@ def subside_parallel_row(
   cdef long col_load
   cdef long col
 
-  return
-
   for col_load in range(ncols):
     if fabs(load[col_load]) > 1e-6:
       c = load[col_load] * inv_c
@@ -52,13 +50,27 @@ def subside_grid(
   cdef long row_load
   cdef long row
 
+  if nrows != load.shape[0]:
+      raise RuntimeError("load")
+  if nrows != r.shape[0]:
+      raise RuntimeError("r")
+
   for row_load in range(nrows):
+    print(row_load)
     # for j in range(nrows):
     #   subside_parallel_row(w[j], load[i], r[abs(j - i)], alpha, gamma_mantle)
 
     for row in range(row_load):
+      if row >= nrows or row < 0:
+          raise RuntimeError(row)
+      if row_load - row >= nrows or row_load - row < 0:
+          raise RuntimeError(row_load - row)
       subside_parallel_row(w[row], load[row_load], r[row_load - row], alpha, gamma_mantle)
     for row in range(row_load, nrows):
+      if row >= nrows or row < 0:
+          raise RuntimeError(row)
+      if row - row_load >= nrows or row - row_load < 0:
+          raise RuntimeError(row_load - row)
       subside_parallel_row(w[row], load[row_load], r[row - row_load], alpha, gamma_mantle)
 
 
@@ -105,8 +117,6 @@ def subside_grid_in_parallel(
     DTYPE_t gamma_mantle,
     n_procs
 ):
-    return
-
     if n_procs == 1:
         return subside_grid(w, load, r, alpha, gamma_mantle)
 
