@@ -26,6 +26,8 @@ def subside_parallel_row(
   cdef long col_load
   cdef long col
 
+  return
+
   for col_load in range(ncols):
     if fabs(load[col_load]) > 1e-6:
       c = load[col_load] * inv_c
