@@ -117,8 +117,8 @@ def subside_grid_in_parallel(
     DTYPE_t gamma_mantle,
     n_procs
 ):
-    if n_procs == 1:
-        return subside_grid(w, load, r, alpha, gamma_mantle)
+    # if n_procs == 1:
+    return subside_grid(w, load, r, alpha, gamma_mantle)
 
     strips = tile_grid_into_strips(w, n_procs)
 
