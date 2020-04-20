@@ -50,6 +50,8 @@ def subside_grid(
   cdef long row_load
   cdef long row
 
+  return
+
   if nrows != load.shape[0]:
       raise RuntimeError("load")
   if nrows != r.shape[0]:
