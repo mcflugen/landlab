@@ -177,7 +177,7 @@ cdef _argsort_links(long * links, int n_links, long * nodes, long * ordered):
 
         i = 0
         for link in range(n_links):
-            ordered[i / 2] = index[i] // 2
+            ordered[i // 2] = index[i] // 2
             i += 2
     finally:
         free(index)
