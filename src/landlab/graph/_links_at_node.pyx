@@ -98,3 +98,45 @@ def _sort_links_at_node_by_angle(
             free(angles)
         if n_links_at_node != NULL:
             free(n_links_at_node)
+
+
+@cython.cfunc
+@cython.inline
+cdef Py_ssize_t _compact_links(
+    id_t* links,
+    int8_t* link_dirs,
+    Py_ssize_t size,
+) noexcept nogil:
+    """Compact non-missing links to the front of the row.
+
+    Parameters
+    ----------
+    links : pointer to link IDs; -1 means "missing"
+    link_dirs : pointer to link directions (e.g., -1, +1, 0)
+    size : number of links in this row
+
+    Returns
+    -------
+    count : Py_ssize_t
+        Number of valid (non -1) links after compaction. Entries
+        [0:count] are valid, [count:size] are set to (-1, 0).
+    """
+    cdef Py_ssize_t count = 0
+    cdef Py_ssize_t k
+    cdef Py_ssize_t link
+    cdef int8_t link_dir
+
+    for k in range(size):
+        link = links[k]
+        link_dir = link_dirs[k]
+
+        if link != -1:
+            links[count] = link
+            link_dirs[count] = link_dir
+            count += 1
+
+    for k in range(count, size):
+        links[k] = -1
+        link_dirs[k] = 0
+
+    return count
