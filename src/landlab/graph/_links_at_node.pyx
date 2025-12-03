@@ -140,3 +140,43 @@ cdef Py_ssize_t _compact_links(
         link_dirs[k] = 0
 
     return count
+
+
+@cython.cfunc
+@cython.inline
+cdef void _insertion_sort(
+    double *keys,
+    id_t *vals,
+    int8_t *dirs,
+    Py_ssize_t size,
+) noexcept nogil:
+    """In-place insertion sort for paired arrays.
+
+    Parameters
+    ----------
+    keys : pointer to the first element of the key array
+    vals : pointer to the first element of the value array
+    dirs : pointer to the first element of the dirs array
+    size : number of elements to sort
+    """
+    cdef Py_ssize_t i
+    cdef Py_ssize_t j
+    cdef double key
+    cdef id_t val
+    cdef int8_t dir_
+
+    for i in range(1, size):
+        key = keys[i]
+        val = vals[i]
+        dir_ = dirs[i]
+
+        j = i - 1
+        while j >= 0 and keys[j] > key:
+            keys[j + 1] = keys[j]
+            vals[j + 1] = vals[j]
+            dirs[j + 1] = dirs[j]
+            j -= 1
+
+        keys[j + 1] = key
+        vals[j + 1] = val
+        dirs[j + 1] = dir_
