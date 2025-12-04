@@ -56,42 +56,45 @@ def _sort_links_at_node_by_angle(
             free(n_links_at_node)
         raise MemoryError("malloc failed in _sort_links_at_node_by_angle")
 
-    with nogil:
-        for node in range(n_nodes):
-            n_links_at_node[node] = _compact_links(
-                &links_at_node[node, 0], &link_dirs_at_node[node, 0], max_links_per_node
-            )
+    try:
+        with nogil:
+            for node in range(n_nodes):
+                n_links_at_node[node] = _compact_links(
+                    &links_at_node[node, 0], &link_dirs_at_node[node, 0], max_links_per_node
+                )
 
-        for node in range(n_nodes):
-            for k in range(n_links_at_node[node]):
-                link = links_at_node[node, k]
+            for node in range(n_nodes):
+                for k in range(n_links_at_node[node]):
+                    link = links_at_node[node, k]
 
-                tail = nodes_at_link[link, 0]
-                head = nodes_at_link[link, 1]
+                    tail = nodes_at_link[link, 0]
+                    head = nodes_at_link[link, 1]
 
-                x0 = x_of_node[node]
-                y0 = y_of_node[node]
+                    x0 = x_of_node[node]
+                    y0 = y_of_node[node]
 
-                if tail == node:
-                    x1 = x_of_node[head]
-                    y1 = y_of_node[head]
-                else:
-                    x1 = x_of_node[tail]
-                    y1 = y_of_node[tail]
+                    if tail == node:
+                        x1 = x_of_node[head]
+                        y1 = y_of_node[head]
+                    else:
+                        x1 = x_of_node[tail]
+                        y1 = y_of_node[tail]
 
-                angle = atan2(y1 - y0, x1 - x0)
+                    angle = atan2(y1 - y0, x1 - x0)
 
-                if angle < 0.0:
-                    angle += 2.0 * M_PI
+                    if angle < 0.0:
+                        angle += 2.0 * M_PI
 
-                angles[k] = angle
+                    angles[k] = angle
 
-            _insertion_sort(
-                angles,
-                &links_at_node[node, 0],
-                &link_dirs_at_node[node, 0],
-                n_links_at_node[node],
-            )
-
-    free(n_links_at_node)
-    free(angles)
+                _insertion_sort(
+                    angles,
+                    &links_at_node[node, 0],
+                    &link_dirs_at_node[node, 0],
+                    n_links_at_node[node],
+                )
+    finally:
+        if angles != NULL:
+            free(angles)
+        if n_links_at_node != NULL:
+            free(n_links_at_node)
