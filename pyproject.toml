@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "landlab"
-version = "2.10.2.dev0"
+version = "2.11.0rc1"
 description = "Open-source Python package for numerical modeling of Earth surface dynamics."
 authors = [
   {email = "mcflugen@gmail.com"},
@@ -189,7 +189,7 @@ type = [
   {name="🔩 Other Changes and Additions", directory="misc", showcontent=true},
 ]
 
-[tool.landlab.credits]
+[tool.fullcredit]
 exclude = '''
 (?x)^(
   \(no\ author\)|
@@ -197,6 +197,11 @@ exclude = '''
   .*\[bot\]  # ignore all bots
 )
 '''
-authors_file = "AUTHORS.md"
+ignore = [
+  "root",
+  "(no author)",
+]
+authors_file = ".credits.toml"
+credits_file = "AUTHORS.md"
 author_format = "- [{name}](https://github.com/{github})"
 start_string = "<!-- credits-roll start-author-list -->"
