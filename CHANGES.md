@@ -7,124 +7,77 @@
 
 <!-- towncrier release notes start -->
 
-## 2.11.0 (2026-04-05)
 
+## 2.11.0 (2026-04-05)
 
 ### 🍰 New Features
 
-- Added new module, `landlab.utils.geometry.planar`, that contains functions
-  for calculating path lengths. [#2186](https://github.com/landlab/landlab/issues/2186)
-- Added a `nodata_value` keyword to the `esri_ascii.dump` function,
-  allowing users to specify a custom no-data value when exporting
-  grid data to ESRI ASCII format. [#2204](https://github.com/landlab/landlab/issues/2204)
--  [#2264](https://github.com/landlab/landlab/issues/2264)
-- Added support for Python 3.14. [#2278](https://github.com/landlab/landlab/issues/2278)
-- Added `perimeter_links` parameter to the __init__() method of the VoronoiDelaunayGrid
-  class. This parameter allows removal of extra links and cells when creating a
-  Voronoi model grid. [#2296](https://github.com/landlab/landlab/issues/2296)
-- Added a new utility, `validate_array`, that ensures *numpy* arrays meet specified
-  requirements like dtype, shape, writeability, and memory contiguity. [#2308](https://github.com/landlab/landlab/issues/2308)
-- Added a raster-specific, optimized *Cython* implementation of
-  `map_max_of_link_nodes_to_link` for improved performance on raster grids. [#2309](https://github.com/landlab/landlab/issues/2309)
-- Added a new *cython* function,  `weighted_mean_of_parallel_links` to optimize
-  calculations in the overland flow component. [#2310](https://github.com/landlab/landlab/issues/2310)
-- Added new validators that check if values are within a specified range. [#2322](https://github.com/landlab/landlab/issues/2322)
-- Added a new validator, ``require_one_of`` that allows users to validate
-  that a value is contained within a set of allowed values. [#2332](https://github.com/landlab/landlab/issues/2332)
-- Added new smoothed_threshold parameter to ErosionDeposition and SharedStreamPower
-  components. [#2339](https://github.com/landlab/landlab/issues/2339)
+* Added a new module, `landlab.utils.geometry.planar`, for calculating path lengths. [#2186](https://github.com/landlab/landlab/issues/2186)
+* Added a `nodata_value` keyword to `esri_ascii.dump`, allowing users to specify a custom nodata value when exporting grid data to ESRI ASCII format. [#2204](https://github.com/landlab/landlab/issues/2204)
+* Added support for Python 3.14. [#2278](https://github.com/landlab/landlab/issues/2278)
+* Added a `perimeter_links` parameter to the `__init__()` method of the `VoronoiDelaunayGrid` class to allow removal of extraneous links and cells when creating a grid. [#2296](https://github.com/landlab/landlab/issues/2296)
+* Added a new utility, `validate_array`, to ensure *NumPy* arrays meet requirements for dtype, shape, writeability, and memory contiguity. [#2308](https://github.com/landlab/landlab/issues/2308)
+* Added a raster-specific optimized Cython implementation of `map_max_of_link_nodes_to_link` for improved performance. [#2309](https://github.com/landlab/landlab/issues/2309)
+* Added a Cython implementation of `weighted_mean_of_parallel_links` to optimize calculations in the OverlandFlow component. [#2310](https://github.com/landlab/landlab/issues/2310)
+* Added new validators to check whether values fall within a specified range. [#2322](https://github.com/landlab/landlab/issues/2322)
+* Added a new validator, `require_one_of`, to ensure values are contained within a set of allowed values. [#2332](https://github.com/landlab/landlab/issues/2332)
+* Added a `smoothed_threshold` parameter to the `ErosionDeposition` and `SharedStreamPower` components. [#2339](https://github.com/landlab/landlab/issues/2339)
 
 
 ### 🛠️ Bug Fixes
 
-- Fixed an issue where the location of the lower left corner was
-  being written by `esri_ascii.dump`. [#2207](https://github.com/landlab/landlab/issues/2207)
-- Removed the broken `default_fixed_links` keyword parameter from the `OverlandFlow`
-  component. [#2313](https://github.com/landlab/landlab/issues/2313)
-- Fixed the ``OverlandFlow`` component to properly accept Manning's roughness
-  coefficient as a scalar, an array, or a string field name. [#2328](https://github.com/landlab/landlab/issues/2328)
-- Fixed an issue that caused errors when writing grids to netcdf using
-  newer versions of *xarray*. [#2358](https://github.com/landlab/landlab/issues/2358)
-- Fixed OpenMP build configuration in setup.py and removed bundled libomp from wheels. [#2379](https://github.com/landlab/landlab/issues/2379)
+* Fixed an issue where the lower-left corner location was incorrectly written by `esri_ascii.dump`. [#2207](https://github.com/landlab/landlab/issues/2207)
+* Removed the broken `default_fixed_links` keyword parameter from the `OverlandFlow` component. [#2313](https://github.com/landlab/landlab/issues/2313)
+* Fixed the `OverlandFlow` component to properly accept Manning’s roughness coefficient as a scalar, array, or field name. [#2328](https://github.com/landlab/landlab/issues/2328)
+* Fixed errors when writing grids to NetCDF with newer versions of *xarray*. [#2358](https://github.com/landlab/landlab/issues/2358)
+* Fixed OpenMP build configuration in `setup.py` and removed bundled `libomp` from wheels. [#2379](https://github.com/landlab/landlab/issues/2379)
 
 
 ### 📖 Documentation Enhancements
 
-- Fixed typos in the fault scarp tutorial notebook. [#2274](https://github.com/landlab/landlab/issues/2274)
-- Add a tutorial video to the developer guide in the Landlab documentation. [#2291](https://github.com/landlab/landlab/issues/2291)
-- Replaced an obsolete link to the EarthscapeHub *lab* instance with a link to *explore*. [#2330](https://github.com/landlab/landlab/issues/2330)
-- Add 3 new publications to the USEDBY.md list. [#2335](https://github.com/landlab/landlab/issues/2335)
-- Fixed typos in landlab.io.netcdf documentation. [#2353](https://github.com/landlab/landlab/issues/2353)
-- Fixed docstrings/cross-references so the docs build cleanly under
-  Sphinx 9. [#2364](https://github.com/landlab/landlab/issues/2364)
-- Fixed typos and wording issues across the entire codebase (no functional changes). [#2367](https://github.com/landlab/landlab/issues/2367)
-- Fixed coding spelling mistakes across the entire codebase. [#2368](https://github.com/landlab/landlab/issues/2368)
-- Updated the publication list with references found in early 2026. [#2372](https://github.com/landlab/landlab/issues/2372)
+* Fixed typos in the fault scarp tutorial notebook. [#2274](https://github.com/landlab/landlab/issues/2274)
+* Added a tutorial video to the developer guide. [#2291](https://github.com/landlab/landlab/issues/2291)
+* Replaced an obsolete EarthscapeHub *lab* link with *explore*. [#2330](https://github.com/landlab/landlab/issues/2330)
+* Added three new publications to `USEDBY.md`. [#2335](https://github.com/landlab/landlab/issues/2335)
+* Fixed typos in `landlab.io.netcdf` documentation. [#2353](https://github.com/landlab/landlab/issues/2353)
+* Fixed docstrings and cross-references for compatibility with Sphinx 9. [#2364](https://github.com/landlab/landlab/issues/2364)
+* Fixed typos and wording issues across the codebase (no functional changes). [#2367](https://github.com/landlab/landlab/issues/2367)
+* Fixed spelling mistakes across the codebase. [#2368](https://github.com/landlab/landlab/issues/2368)
+* Updated the publication list with references from early 2026. [#2372](https://github.com/landlab/landlab/issues/2372)
 
 
 ### 🔩 Other Changes and Additions
 
-- Updated *bmi_topography* notebook for *rioxarray*. [#2341.1](https://github.com/landlab/landlab/issues/2341.1)
-- Added cached DEMs for notebooks that use *bmi_topograph* to download from
-  OpenTopography. [#2341.2](https://github.com/landlab/landlab/issues/2341.2)
-- Added a new GitHub workflow to optimize CI performance by separating
-  quick tests from comprehensive testing. The quick tests run on every push
-  and pull request using a single configuration, while the full test suite
-  only runs on ready-for-review pull requests. [#2140](https://github.com/landlab/landlab/issues/2140)
-- Improved the error messages for the ChannelProfiler. [#2177](https://github.com/landlab/landlab/issues/2177)
-- Updated *nbgitpuller* links in README to point to explore Hub instead of lab Hub. [#2209](https://github.com/landlab/landlab/issues/2209)
-- Fixed a failing test for spacing_from_drainage_area related to a new
-  version of *hypothesis*. [#2218](https://github.com/landlab/landlab/issues/2218)
-- Removed large SRTM data files from the tutorials, reducing the
-  repository size by approximately 75MB. [#2247](https://github.com/landlab/landlab/issues/2247)
-- Correct the header doc and soil-velocity parameter name in DepthDependentLinearDiffuser. [#2258](https://github.com/landlab/landlab/issues/2258)
-- Converted the overland flow component from relative imports to absolute imports. [#2311](https://github.com/landlab/landlab/issues/2311)
-- Refactored the test fixture organization for the overland flow component. [#2312](https://github.com/landlab/landlab/issues/2312)
-- Removed unnecessary class attributes in OverlandFlow causing extra arrays
-  to be unnecessarily being held in memory and making the component difficult
-  to follow. [#2314](https://github.com/landlab/landlab/issues/2314)
-- Refactored the `set_up_neighbor_arrays` method in the `OverlandFlow` component
-  to eliminate unnecessary class attributes that were only used locally within
-  that method. [#2315](https://github.com/landlab/landlab/issues/2315)
-- Added *cython*-optimized function `calc_bates_flow_height` for calculating flow
-  heights in overland flow simulations using the Bates algorithm. [#2316](https://github.com/landlab/landlab/issues/2316)
-- Added a *cython* implementation of `calc_grad_at_link` for the overland flow component
-  that operates only at specified links. [#2317](https://github.com/landlab/landlab/issues/2317)
-- Refactored discharge stability adjustments in the overland flow component
-  into a new *cython* function, `adjust_unstable_discharge`. [#2318](https://github.com/landlab/landlab/issues/2318)
-- Refactored the supercritical flow discharge adjustment in OverlandFlow by
-  moving it into *cython*. [#2319](https://github.com/landlab/landlab/issues/2319)
-- Added the *cython* function, ``calc_discharge_at_links``, to the overland flow
-  component to speed up discharge calculations. [#2320](https://github.com/landlab/landlab/issues/2320)
-- Added new *cython* function, ``zero_out_dry_links``, that zeros-out an
-  array based on non-positive flow depths. [#2321](https://github.com/landlab/landlab/issues/2321)
-- Refactored the ``calc_time_step`` method in the ``OverlandFlow`` to
-  improve error handling and adaptive time-stepping behavior where only
-  active links are considered. [#2323](https://github.com/landlab/landlab/issues/2323)
-- Removed the `_dt` internal attribute from the `OverlandFlow` component to
-  simplify the time-stepping logic. This change also removed the getter and
-  setter for the `dt` property. [#2324](https://github.com/landlab/landlab/issues/2324)
-- Corrected field specifications in ``OverlandFlow`` by making `surface_water__discharge`
-  and `water_surface__gradient` optional fields. [#2325](https://github.com/landlab/landlab/issues/2325)
-- Refactored the building of the ``links_at_node`` matrix to go from O(n**2) to O(n)
-  complexity. [#2333](https://github.com/landlab/landlab/issues/2333)
-- Changed our CI to use macos-15-intel for our intel builds. [#2337](https://github.com/landlab/landlab/issues/2337)
-- Updated the project metadata to follow [PEP639](https://peps.python.org/pep-0639/)
-  for the license metadata. [#2344](https://github.com/landlab/landlab/issues/2344)
-- Fixed the *numpy* "where without out" warnings in the spoke sorter and
-  the concentration tracker. [#2349](https://github.com/landlab/landlab/issues/2349)
-- Fixed one of the `NetworkSedimentTransporter` tests that was causing
-  an error for newer versions of *numpy*. [#2351](https://github.com/landlab/landlab/issues/2351)
-- Adds the paper titled: "Could Climate Change Decrease Landslide Hazard in Snow-Dominated Mountainous Regions? Insights From a Distributed Hydrology-Shallow Landslide Model of the North Cascades, USA" to the list of Landlab publications. [#2366](https://github.com/landlab/landlab/issues/2366)
-- Removed unused code from the `OverlandFlow` component. [#2375](https://github.com/landlab/landlab/issues/2375)
-- Modified the CI to publish to *PyPI* or *TestPyPI* on a manual
-  trigger rather than on a version tag. [#2376](https://github.com/landlab/landlab/issues/2376)
-- Replaced the optional dependency on *richdem with *py-richdem*, which is
-  actively maintained and distributed on PyPI for *Linux*, *macOS*, and *Windows*. [#2379](https://github.com/landlab/landlab/issues/2379)
-- Refactored functions in the jaggedarray extension module for speed
-  and removed fused types for index arrays. [#2386](https://github.com/landlab/landlab/issues/2386)
-- Switched to using the *requireit* validators for pre-condition checks. [#2387](https://github.com/landlab/landlab/issues/2387)
-- Manage package version through `pyproject.toml` metadata. [#2390](https://github.com/landlab/landlab/issues/2390)
+* Updated the *bmi_topography* notebook for *rioxarray*. [#2341](https://github.com/landlab/landlab/issues/2341)
+* Added cached DEMs for notebooks using *bmi_topography* to reduce reliance on OpenTopography downloads. [#2341](https://github.com/landlab/landlab/issues/2341)
+* Introduced a new CI workflow that separates quick tests from full test suites to improve performance. [#2140](https://github.com/landlab/landlab/issues/2140)
+* Improved error messages for `ChannelProfiler`. [#2177](https://github.com/landlab/landlab/issues/2177)
+* Updated *nbgitpuller* links to use explore Hub. [#2209](https://github.com/landlab/landlab/issues/2209)
+* Fixed a failing test for `spacing_from_drainage_area` with newer versions of *hypothesis*. [#2218](https://github.com/landlab/landlab/issues/2218)
+* Removed large SRTM data files, reducing repository size by ~75 MB. [#2247](https://github.com/landlab/landlab/issues/2247)
+* Corrected documentation and parameter naming in `DepthDependentLinearDiffuser`. [#2258](https://github.com/landlab/landlab/issues/2258)
+
+#### OverlandFlow Improvements
+
+* Refactored imports, fixtures, and internal structure for clarity and reduced memory usage. [#2311–2315](https://github.com/landlab/landlab/issues/2311)
+* Added multiple Cython optimizations for flow calculations (`calc_bates_flow_height`, `calc_grad_at_link`, `calc_discharge_at_links`, etc.). [#2316–2321](https://github.com/landlab/landlab/issues/2316)
+* Improved time-stepping logic and error handling. [#2323](https://github.com/landlab/landlab/issues/2323)
+* Simplified time-step management by removing the `_dt` attribute. [#2324](https://github.com/landlab/landlab/issues/2324)
+* Updated field specifications and removed unused code. [#2325, #2375](https://github.com/landlab/landlab/issues/2325)
+
+#### Performance & Infrastructure
+
+* Refactored `links_at_node` construction from (O(n^2)) to (O(n)). [#2333](https://github.com/landlab/landlab/issues/2333)
+* Updated CI to use macOS 15 Intel runners. [#2337](https://github.com/landlab/landlab/issues/2337)
+* Adopted PEP 639 license metadata. [#2344](https://github.com/landlab/landlab/issues/2344)
+* Fixed NumPy warnings related to `where`. [#2349](https://github.com/landlab/landlab/issues/2349)
+* Fixed compatibility issues with newer NumPy versions. [#2351](https://github.com/landlab/landlab/issues/2351)
+* Updated CI publishing to use manual triggers for PyPI/TestPyPI. [#2376](https://github.com/landlab/landlab/issues/2376)
+* Replaced optional dependency on *richdem* with *py-richdem*. [#2379](https://github.com/landlab/landlab/issues/2379)
+* Refactored jaggedarray extension for speed and removed fused index types. [#2386](https://github.com/landlab/landlab/issues/2386)
+* Switched to *requireit* validators for precondition checks. [#2387](https://github.com/landlab/landlab/issues/2387)
+* Managed package version via `pyproject.toml`. [#2390](https://github.com/landlab/landlab/issues/2390)
+
 
 ## 2.10.1 (2025-08-10)
 
